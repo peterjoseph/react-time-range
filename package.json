@@ -24,6 +24,10 @@
     "url": "https://github.com/withpeterjoseph/react-time-range/issues"
   },
   "homepage": "https://github.com/withpeterjoseph/react-time-range#readme",
+  "devDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
   "dependencies": {
     "babel-runtime": "6.x",
     "moment": "2.x"
