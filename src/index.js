@@ -38,15 +38,22 @@ class TimeRange extends Component {
       use24Hours,
     } = this.props;
     
-    this.generateTimeIncrement();
+    const sT = this.generateTimeIncrement();
+    const eT = this.generateTimeIncrement();
 
     return (
       <div className={className}>
         {startLabel}
         <select>
+          {sT.map((resp, index) => 
+            <option key={index}>{use24Hours ? `${resp.HH}:${resp.MM}` : `${resp.hh}:${resp.mm} ${resp.period}`}</option>
+          )}
         </select>
         {endLabel}
         <select>
+          {eT.map((resp, index) => 
+            <option key={index}>{use24Hours ? `${resp.HH}:${resp.MM}` : `${resp.hh}:${resp.mm} ${resp.period}`}</option>
+          )}
         </select>
         {this.props.children}
       </div>
