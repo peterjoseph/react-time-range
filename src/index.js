@@ -9,31 +9,33 @@ class TimeRange extends Component {
   }
   
   generateTimeIncrement() {
-    // Create hours array
     const hourIncrement = 24 / this.props.hourIncrement;
     const minuteIncrement = 60 / this.props.minuteIncrement;
-
-    let timeArray = new Array(hourIncrement * minuteIncrement);
-
-    // Increment differently if 24hrs
-    if (this.props.use24Hours == true) {
-
-      for (i = 0; i < hourIncrement; i++) {
-        for (j = 0; j < minuteIncrement; j++) {
-          const time = {
-            h: 0 + 
-            m: 0 + 
-            active: true;
+    let timeArray = [];
+    for (let i = 0; i < hourIncrement; i++) {
+      for (let j = 0; j < minuteIncrement; j++) {
+        let time = {};
+        if (this.props.use24Hours == true) {
+          time = {
+            h: ("0" + (i * this.props.hourIncrement)).slice(-2),
+            m: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+            active: true,
+            period: null
           }
-          timeArray[] = 
+        } else {
+          time = {
+            h: ("0" + (i * this.props.hourIncrement)).slice(-2),
+            m: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+            hh: (i * this.props.hourIncrement == 0) ? "12" : (i >= 12 ? ("0" + ((i * this.props.hourIncrement) - 12)).slice(-2) : ("0" + (i * this.props.hourIncrement)).slice(-2)),
+            mm: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+            active: true,
+            period: i >= 12 ? "PM" : "AM"
+          }
         }
+        timeArray.push(time);
       }
-
-    } else {
-      //
     }
-
-    return;
+    return timeArray;
   }
  
   render() {
@@ -44,7 +46,9 @@ class TimeRange extends Component {
       endMoment,
       className,
       use24Hours,
-		} = this.props;
+    } = this.props;
+    
+    this.generateTimeIncrement();
 
     return (
       <div className={className}>
