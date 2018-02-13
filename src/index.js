@@ -9,15 +9,14 @@ class TimeRange extends Component {
   }
   
   generateTimeIncrement() {
-    const hourIncrement = 24 / this.props.hourIncrement;
     const minuteIncrement = 60 / this.props.minuteIncrement;
     let timeArray = [];
-    for (let i = 0; i < hourIncrement; i++) {
+    for (let i = 0; i < 24; i++) {
       for (let j = 0; j < minuteIncrement; j++) {
         const time = {
-          HH: ("0" + (i * this.props.hourIncrement)).slice(-2),
+          HH: ("0" + (i)).slice(-2),
           MM: ("0" + (j * this.props.minuteIncrement)).slice(-2),
-          hh: (i * this.props.hourIncrement == 0) ? "12" : (i >= 12 ? ("0" + ((i * this.props.hourIncrement) - 12)).slice(-2) : ("0" + (i * this.props.hourIncrement)).slice(-2)),
+          hh: (i == 0) ? "12" : (i >= 12 ? ("0" + ((i) - 12)).slice(-2) : ("0" + (i)).slice(-2)),
           mm: ("0" + (j * this.props.minuteIncrement)).slice(-2),
           active: true,
           period: i >= 12 ? "PM" : "AM"
@@ -66,7 +65,6 @@ TimeRange.defaultProps = {
   useSingleMoment: false,
   useCalendarChildren: false,
   calendarChildren: 0,
-  hourIncrement: 1,
   minuteIncrement: 30,
   startLabel: "Start:",
   endLabel: "End:"
@@ -82,7 +80,6 @@ TimeRange.propTypes = {
   endLabel: PropTypes.string,
   startMoment: PropTypes.object,
   endMoment: PropTypes.object,
-  hourIncrement: PropTypes.oneOf([1,2,3,4]),
   minuteIncrement: PropTypes.oneOf([10,15,20,30,60]),
   className: PropTypes.string,
   onClick: PropTypes.func,
