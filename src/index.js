@@ -14,23 +14,13 @@ class TimeRange extends Component {
     let timeArray = [];
     for (let i = 0; i < hourIncrement; i++) {
       for (let j = 0; j < minuteIncrement; j++) {
-        let time = {};
-        if (this.props.use24Hours == true) {
-          time = {
-            h: ("0" + (i * this.props.hourIncrement)).slice(-2),
-            m: ("0" + (j * this.props.minuteIncrement)).slice(-2),
-            active: true,
-            period: null
-          }
-        } else {
-          time = {
-            h: ("0" + (i * this.props.hourIncrement)).slice(-2),
-            m: ("0" + (j * this.props.minuteIncrement)).slice(-2),
-            hh: (i * this.props.hourIncrement == 0) ? "12" : (i >= 12 ? ("0" + ((i * this.props.hourIncrement) - 12)).slice(-2) : ("0" + (i * this.props.hourIncrement)).slice(-2)),
-            mm: ("0" + (j * this.props.minuteIncrement)).slice(-2),
-            active: true,
-            period: i >= 12 ? "PM" : "AM"
-          }
+        const time = {
+          HH: ("0" + (i * this.props.hourIncrement)).slice(-2),
+          MM: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+          hh: (i * this.props.hourIncrement == 0) ? "12" : (i >= 12 ? ("0" + ((i * this.props.hourIncrement) - 12)).slice(-2) : ("0" + (i * this.props.hourIncrement)).slice(-2)),
+          mm: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+          active: true,
+          period: i >= 12 ? "PM" : "AM"
         }
         timeArray.push(time);
       }
