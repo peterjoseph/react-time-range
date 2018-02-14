@@ -1,72 +1,45 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
-import {
-  generateTimeIncrement,
-  calculateRoundedTimeValue,
-  changeTime,
-  validTimeCheck,
-  hideTimeValues
-} from "./helpers";
+import { generateTimeObjects, manipulateTimeObjects } from "./timeModel";
 
-class TimeRange extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+class TimeRange extends React.Component {
   render() {
-    const {
-      startLabel,
-      endLabel,
-      startMoment,
-      endMoment,
-      className,
-      use24Hours
-    } = this.props;
+    const { startLabel, endLabel, className, use24Hours } = this.props;
 
-    // Generate time increments
-    const startTimeIncrement = generateTimeIncrement(
-      this.props.minuteIncrement
-    );
-    const endTimeIncrement = generateTimeIncrement(this.props.minuteIncrement);
-
-    // Convert our moment objects into a compatible object
-    const startTimeValue = calculateRoundedTimeValue(
-      startMoment,
-      this.props.minuteIncrement
-    );
-    const endTimeValue = calculateRoundedTimeValue(
-      endMoment,
-      this.props.minuteIncrement
-    );
-
-    // Build time object from external moment props
-    // Validate start and end moments
-    // Create time increments with disabled options
+    const timeModel = generateTimeObjects({ ...this.props });
 
     return (
       <div className={className}>
         {startLabel}
-        <select value={startTimeValue.value} onChange={this.changeTime}>
-          {startTimeIncrement.map((resp, index) => (
-            <option key={index} value={resp.value} disabled={!resp.active}>
-              {use24Hours
-                ? `${resp.HH}:${resp.MM}`
-                : `${resp.hh}:${resp.mm} ${resp.period}`}
-            </option>
-          ))}
+        <select
+          value={timeModel.startTimeValue && timeModel.startTimeValue.value}
+          onChange={this.changeTime}
+        >
+          {timeModel.startTimeIncrement &&
+            timeModel.startTimeIncrement.map((resp, index) => (
+              <option key={index} value={resp.value} disabled={!resp.active}>
+                {use24Hours
+                  ? `${resp.HH}:${resp.MM}`
+                  : `${resp.hh}:${resp.mm} ${resp.period}`}
+              </option>
+            ))}
         </select>
         {endLabel}
-        <select value={endTimeValue.value} onChange={this.changeTime}>
-          {endTimeIncrement.map((resp, index) => (
-            <option key={index} value={resp.value} disabled={!resp.active}>
-              {use24Hours
-                ? `${resp.HH}:${resp.MM}`
-                : `${resp.hh}:${resp.mm} ${resp.period}`}
-            </option>
-          ))}
+        <select
+          value={timeModel.endTimeValue && timeModel.endTimeValue.value}
+          onChange={this.changeTime}
+        >
+          {timeModel.endTimeIncrement &&
+            timeModel.endTimeIncrement.map((resp, index) => (
+              <option key={index} value={resp.value} disabled={!resp.active}>
+                {use24Hours
+                  ? `${resp.HH}:${resp.MM}`
+                  : `${resp.hh}:${resp.mm} ${resp.period}`}
+              </option>
+            ))}
         </select>
         {this.props.children}
+        {timeModel.error && <div className="error">{timeModel.error}</div>}
       </div>
     );
   }
@@ -74,7 +47,6 @@ class TimeRange extends Component {
 
 TimeRange.defaultProps = {
   use24Hours: false,
-  useSingleMoment: false,
   useCalendarChildren: false,
   calendarChildren: 0,
   minuteIncrement: 30,
@@ -84,15 +56,13 @@ TimeRange.defaultProps = {
 
 TimeRange.propTypes = {
   use24Hours: PropTypes.bool,
-  useSingleMoment: PropTypes.bool,
-  useNearestTime: PropTypes.bool, // Find the closest time if the moment() value is not at a standard increment
   useCalendarChildren: PropTypes.bool,
   calendarChildren: PropTypes.oneOf([0, 1, 2]),
   startLabel: PropTypes.string,
   endLabel: PropTypes.string,
-  startMoment: PropTypes.object,
-  endMoment: PropTypes.object,
-  minuteIncrement: PropTypes.oneOf([1, 5, 10, 15, 20, 30, 60]),
+  startMoment: PropTypes.object.isRequired,
+  endMoment: PropTypes.object.isRequired,
+  minuteIncrement: PropTypes.oneOf([1, 2, 5, 10, 15, 20, 30, 60]),
   className: PropTypes.string,
   onClick: PropTypes.func,
   onChange: PropTypes.func, // This should also return the duration
