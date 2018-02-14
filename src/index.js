@@ -1,91 +1,93 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
 
 class TimeRange extends Component {
 
-  constructor(props) {
-		super(props);
+  constructor (props) {
+		super(props)
   }
-  
-  generateTimeIncrement() { // Create an array of all possible times that can be selected
-    const minuteIncrement = 60 / this.props.minuteIncrement;
-    let timeArray = [];
+
+  generateTimeIncrement () { // Create an array of all possible times that can be selected
+    const minuteIncrement = 60 / this.props.minuteIncrement
+    let timeArray = []
     for (let i = 0; i < 24; i++) {
       for (let j = 0; j < minuteIncrement; j++) {
         const time = {
-          HH: ("0" + (i)).slice(-2),
-          MM: ("0" + (j * this.props.minuteIncrement)).slice(-2),
-          hh: (i == 0) ? "12" : (i == 12 ? "12" : (i > 12 ? ("0" + ((i) - 12)) : ("0" + (i)))).slice(-2),
-          mm: ("0" + (j * this.props.minuteIncrement)).slice(-2),
+          HH: ('0' + (i)).slice(-2),
+          MM: ('0' + (j * this.props.minuteIncrement)).slice(-2),
+          hh: (i === 0) ? '12' : (i === 12 ? '12' : (i > 12 ? ('0' + ((i) - 12)) : ('0' + (i)))).slice(-2),
+          mm: ('0' + (j * this.props.minuteIncrement)).slice(-2),
           active: true,
-          period: i >= 12 ? "PM" : "AM"
+          period: i >= 12 ? 'PM' : 'AM'
         }
-        timeArray.push(time);
+        timeArray.push(time)
       }
     }
-    return timeArray;
+    return timeArray
   }
 
-  calculateRoundedTimeValue(moment) { // If we receive a moment value, find nearest time increment
-    const roundedTime = Math.round(((moment.hour() * 60) + moment.minutes()) / this.props.minuteIncrement) * this.props.minuteIncrement;
-    const rHour = Math.floor(roundedTime / 60);
-    const rMin = roundedTime % 60;
+  calculateRoundedTimeValue (moment) { // If we receive a moment value, find nearest time increment
+    const roundedTime = Math.round(((moment.hour() * 60) + moment.minutes()) / this.props.minuteIncrement) * this.props.minuteIncrement
+    const rHour = Math.floor(roundedTime / 60)
+    const rMin = roundedTime % 60
     const time = {
-      HH: ("0" + (rHour)).slice(-2),
-      MM: ("0" + rMin).slice(-2),
-      hh: (rHour == 0) ? "12" : (rHour == 12 ? "12" : (rHour > 12 ? ("0" + ((rHour) - 12)) : ("0" + (rHour)))).slice(-2),
-      mm: ("0" + rMin).slice(-2),
+      HH: ('0' + (rHour)).slice(-2),
+      MM: ('0' + rMin).slice(-2),
+      hh: (rHour === 0) ? '12' : (rHour === 12 ? '12' : (rHour > 12 ? ('0' + ((rHour) - 12)) : ('0' + (rHour)))).slice(-2),
+      mm: ('0' + rMin).slice(-2),
       active: true,
-      period: rHour >= 12 ? "PM" : "AM"
-    };
-    return time;
+      period: rHour >= 12 ? 'PM' : 'AM'
+    }
+    return time
   }
 
-  changeTime() { // Return new moment() object when time changes
-
+  changeTime () { // Return new moment() object when time changes
   }
 
-  validTimeCheck() { // Confirm if start and end times are valid ranges
-    
+  validTimeCheck () { // Confirm if start and end times are valid ranges
   }
 
-  hideTimeValues() { // Generate list of disabled values for a time range
-
+  hideTimeValues () { // Generate list of disabled values for a time range
   }
- 
-  render() {
-		const {
+
+  render () {
+    const {
       startLabel,
       endLabel,
       startMoment,
       endMoment,
       className,
-      use24Hours,
-    } = this.props;
-    
-    const sT = this.generateTimeIncrement();
-    const eT = this.generateTimeIncrement();
+      use24Hours
+    } = this.props
 
-    const roundedTime = this.calculateRoundedTimeValue(startMoment);
+    // Build array of time increments
+    const startTimeIncrement = this.generateTimeIncrement();
+    const endTimeIncrement = this.generateTimeIncrement();
+
+    // Convert our moment objects into a compatible object
+    const startTimeValue = this.calculateRoundedTimeValue(startMoment);
+    const endTimeValue = this.calculateRoundedTimeValue(endMoment);
+
+    // Validate times
 
     return (
       <div className={className}>
         {startLabel}
-        <select>
-          {sT.map((resp, index) => 
+        <select value={startTimeValue}>
+          {startTimeIncrement.map((resp, index) =>
             <option key={index}>{use24Hours ? `${resp.HH}:${resp.MM}` : `${resp.hh}:${resp.mm} ${resp.period}`}</option>
           )}
         </select>
         {endLabel}
-        <select>
-          {eT.map((resp, index) => 
+        <select value={endTimeValue}>
+          {endTimeIncrement.map((resp, index) =>
             <option key={index}>{use24Hours ? `${resp.HH}:${resp.MM}` : `${resp.hh}:${resp.mm} ${resp.period}`}</option>
           )}
         </select>
         {this.props.children}
       </div>
-    );
+    )
   }
 }
 
@@ -95,9 +97,9 @@ TimeRange.defaultProps = {
   useCalendarChildren: false,
   calendarChildren: 0,
   minuteIncrement: 30,
-  startLabel: "Start:",
-  endLabel: "End:"
-};
+  startLabel: 'Start:',
+  endLabel: 'End:'
+}
 
 TimeRange.propTypes = {
   use24Hours: PropTypes.bool,
@@ -127,7 +129,7 @@ TimeRange.propTypes = {
   beforeEndTimeShow: PropTypes.func,
   afterEndTimeShow: PropTypes.func,
   beforeEndTimeHide: PropTypes.func,
-  afterEndTimeHide: PropTypes.func,
-};
+  afterEndTimeHide: PropTypes.func
+}
 
-export default TimeRange;
+export default TimeRange
