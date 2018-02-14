@@ -1,3 +1,10 @@
 {
-    "extends": "standard"
+    "osx": {
+        "command": "./node_modules/.bin/eslint"
+    },
+    "extends": "standard",
+    "isShellCommand": true,
+    "args": ["*.js"],
+    "showOutput": "silent",
+    "problemMatcher": "$eslint-stylish"
 }

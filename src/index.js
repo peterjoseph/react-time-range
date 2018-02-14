@@ -27,8 +27,19 @@ class TimeRange extends Component {
     return timeArray;
   }
 
-  calculateRoundedTimeValue(mnt) { // If we receive a moment value, find nearest time increment
-
+  calculateRoundedTimeValue(moment) { // If we receive a moment value, find nearest time increment
+    const roundedTime = Math.round(((moment.hour() * 60) + moment.minutes()) / this.props.minuteIncrement) * this.props.minuteIncrement;
+    const rHour = Math.floor(roundedTime / 60);
+    const rMin = roundedTime % 60;
+    const time = {
+      HH: ("0" + (rHour)).slice(-2),
+      MM: ("0" + rMin).slice(-2),
+      hh: (rHour == 0) ? "12" : (rHour == 12 ? "12" : (rHour > 12 ? ("0" + ((rHour) - 12)) : ("0" + (rHour)))).slice(-2),
+      mm: ("0" + rMin).slice(-2),
+      active: true,
+      period: rHour >= 12 ? "PM" : "AM"
+    };
+    return time;
   }
 
   changeTime() { // Return new moment() object when time changes
@@ -55,6 +66,8 @@ class TimeRange extends Component {
     
     const sT = this.generateTimeIncrement();
     const eT = this.generateTimeIncrement();
+
+    const roundedTime = this.calculateRoundedTimeValue(startMoment);
 
     return (
       <div className={className}>
