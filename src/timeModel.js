@@ -19,7 +19,7 @@ function generateTimeIncrement(minIncrementProp) {
   for (let i = 0; i < 24; i++) {
     for (let j = 0; j < minuteIncrement; j++) {
       const time = {
-        value: `${i}${j * minIncrementProp}`,
+        value: ("0" + i).slice(-2) + ("0" + j * minIncrementProp).slice(-2),
         HH: ("0" + i).slice(-2),
         MM: ("0" + j * minIncrementProp).slice(-2),
         hh:
@@ -44,7 +44,7 @@ function calculateRoundedTimeValue(moment, minIncrementProp) {
   const rHour = Math.floor(roundedTime / 60);
   const rMin = roundedTime % 60;
   const time = {
-    value: `${rHour}${rMin}`,
+    value: ("0" + rHour).slice(-2) + ("0" + rMin).slice(-2),
     HH: ("0" + rHour).slice(-2),
     MM: ("0" + rMin).slice(-2),
     hh:

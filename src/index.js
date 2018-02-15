@@ -27,13 +27,15 @@ class TimeRange extends React.Component {
     this.setState({ timeModel });
   }
 
-  changeTime() {
+  changeTime(evt) {
     manipulateTimeObjects();
   }
 
   render() {
     const { startLabel, endLabel, className, use24Hours } = this.props;
     const { timeModel } = this.state;
+
+    console.log(timeModel);
 
     return (
       <div className={className}>
