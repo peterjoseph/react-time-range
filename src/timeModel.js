@@ -1,14 +1,15 @@
 import moment from "moment";
 
-function validTimeCheck(startMoment, endMoment, sameIsValid) {
-  // Confirm if start and end times are valid ranges
-  let validTimeDifference = false;
+function validMoments(startMoment, endMoment) {
+  return startMoment.isValid() && endMoment.isValid();
+}
+
+function validRange(startMoment, endMoment, sameIsValid) {
   if (sameIsValid) {
-    validTimeDifference = startMoment.isSameOrBefore(endMoment);
+    return startMoment.isSameOrBefore(endMoment);
   } else {
-    validTimeDifference = startMoment.isBefore(endMoment);
+    return startMoment.isBefore(endMoment);
   }
-  return startMoment.isValid() && endMoment.isValid() && validTimeDifference;
 }
 
 function generateTimeIncrement(minIncrementProp) {
@@ -70,21 +71,33 @@ export function manipulateTimeObjects() {
 }
 
 export function generateTimeObjects(props) {
-  let startTimeIncrement, endTimeIncrement, startTimeValue, endTimeValue, error;
+  let startTimeMoment,
+    endTimeMoment,
+    startTimeIncrement,
+    endTimeIncrement,
+    startTimeValue,
+    endTimeValue,
+    error;
 
-  // Check if two moment objects are valid (end isn't before start)
-  if (validTimeCheck(props.startMoment, props.endMoment, props.sameIsValid)) {
-    // **TODO** Asyncronous bug in here
-    // Build start and end time objects from external moment props
-    startTimeValue = calculateRoundedTimeValue(
-      props.startMoment,
-      props.minuteIncrement
-    );
-    endTimeValue = calculateRoundedTimeValue(
-      props.endMoment,
-      props.minuteIncrement
-    );
+  // Check if two moment objects are valid
+  if (validMoments(props.startMoment, props.endMoment) === true) {
+    startTimeMoment = props.startMoment;
+    endTimeMoment = props.endMoment;
   } else {
+    startTimeMoment = moment().set("hour", 8);
+    endTimeMoment = moment().set("hour", 10);
+  }
+  startTimeValue = calculateRoundedTimeValue(
+    startTimeMoment,
+    props.minuteIncrement
+  );
+  endTimeValue = calculateRoundedTimeValue(
+    endTimeMoment,
+    props.minuteIncrement
+  );
+
+  // Confirm if start and end times are valid ranges
+  if (validRange(startTimeMoment, endTimeMoment, props.sameIsValid) === false) {
     // Throw error message
     if (props.sameIsValid === false) {
       error = "Please enter a valid time. Start and End times cannot be equal.";
