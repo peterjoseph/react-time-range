@@ -1,12 +1,14 @@
 import moment from "moment";
 
-function validTimeCheck(startMoment, endMoment) {
+function validTimeCheck(startMoment, endMoment, sameIsValid) {
   // Confirm if start and end times are valid ranges
-  return (
-    startMoment.isValid() &&
-    endMoment.isValid() &&
-    startMoment.isSameOrBefore(endMoment)
-  );
+  let validTimeDifference = false;
+  if (sameIsValid) {
+    validTimeDifference = startMoment.isSameOrBefore(endMoment);
+  } else {
+    validTimeDifference = startMoment.isBefore(endMoment);
+  }
+  return startMoment.isValid() && endMoment.isValid() && validTimeDifference;
 }
 
 function generateTimeIncrement(minIncrementProp) {
@@ -71,7 +73,8 @@ export function generateTimeObjects(props) {
   let startTimeIncrement, endTimeIncrement, startTimeValue, endTimeValue, error;
 
   // Check if two moment objects are valid (end isn't before start)
-  if (validTimeCheck(props.startMoment, props.endMoment)) {
+  if (validTimeCheck(props.startMoment, props.endMoment, props.sameIsValid)) {
+    // **TODO** Asyncronous bug in here
     // Build start and end time objects from external moment props
     startTimeValue = calculateRoundedTimeValue(
       props.startMoment,
@@ -81,14 +84,20 @@ export function generateTimeObjects(props) {
       props.endMoment,
       props.minuteIncrement
     );
-
-    // Calculate time increments (with disabled items) **TODO**
-    startTimeIncrement = generateTimeIncrement(props.minuteIncrement);
-    endTimeIncrement = generateTimeIncrement(props.minuteIncrement);
   } else {
     // Throw error message
-    error = "Error: The time entered was not valid";
+    if (props.sameIsValid === false) {
+      error = "Please enter a valid time. Start and End times cannot be equal.";
+    } else {
+      error = "Error: The time entered was not valid";
+    }
   }
+
+  // Calculate time increments (with disabled items) **TODO**
+  startTimeIncrement = generateTimeIncrement(props.minuteIncrement);
+  endTimeIncrement = generateTimeIncrement(props.minuteIncrement);
+
+  // Return times back to the select object
   return {
     startTimeIncrement,
     endTimeIncrement,

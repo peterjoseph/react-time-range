@@ -3,10 +3,37 @@ import PropTypes from "prop-types";
 import { generateTimeObjects, manipulateTimeObjects } from "./timeModel";
 
 class TimeRange extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      timeModel: {}
+    };
+
+    this.changeTime = this.changeTime.bind(this);
+  }
+
+  componentWillMount() {
+    this.buildModel(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.buildModel(nextProps);
+  }
+
+  buildModel(props) {
+    // Generate timeModel and store in our component state
+    const timeModel = generateTimeObjects({ ...props });
+    this.setState({ timeModel });
+  }
+
+  changeTime() {
+    manipulateTimeObjects();
+  }
+
   render() {
     const { startLabel, endLabel, className, use24Hours } = this.props;
-
-    const timeModel = generateTimeObjects({ ...this.props });
+    const { timeModel } = this.state;
 
     return (
       <div className={className}>
@@ -48,6 +75,7 @@ class TimeRange extends React.Component {
 TimeRange.defaultProps = {
   use24Hours: false,
   useCalendarChildren: false,
+  sameIsValid: true,
   calendarChildren: 0,
   minuteIncrement: 30,
   startLabel: "Start:",
@@ -63,6 +91,7 @@ TimeRange.propTypes = {
   startMoment: PropTypes.object.isRequired,
   endMoment: PropTypes.object.isRequired,
   minuteIncrement: PropTypes.oneOf([1, 2, 5, 10, 15, 20, 30, 60]),
+  sameIsValid: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
   onChange: PropTypes.func, // This should also return the duration
