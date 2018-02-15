@@ -35,8 +35,6 @@ class TimeRange extends React.Component {
     const { startLabel, endLabel, className, use24Hours } = this.props;
     const { timeModel } = this.state;
 
-    console.log(timeModel);
-
     return (
       <div className={className}>
         {startLabel}
@@ -81,7 +79,11 @@ TimeRange.defaultProps = {
   calendarChildren: 0,
   minuteIncrement: 30,
   startLabel: "Start:",
-  endLabel: "End:"
+  endLabel: "End:",
+  equalTimeError:
+    "Please enter a valid time. Start and End times cannot be equal.",
+  endTimeError:
+    "Please enter a valid time. End time cannot be before start time."
 };
 
 TimeRange.propTypes = {
@@ -98,6 +100,8 @@ TimeRange.propTypes = {
   onClick: PropTypes.func,
   onChange: PropTypes.func, // This should also return the duration
   disabledTimeRanges: PropTypes.array,
+  equalTimeError: PropTypes.string,
+  endTimeError: PropTypes.string,
   startTimeDisabledTimeRanges: PropTypes.array,
   endTimeDisabledTimeRanges: PropTypes.array,
   onStartTimeClick: PropTypes.func,

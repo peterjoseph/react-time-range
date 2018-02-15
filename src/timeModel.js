@@ -91,13 +91,13 @@ export function generateTimeObjects(props) {
   if (validRange(startTimeMoment, endTimeMoment, props.sameIsValid) === false) {
     // Throw error message
     if (props.sameIsValid === false) {
-      error = "Please enter a valid time. Start and End times cannot be equal.";
+      error = props.equalTimeError;
     } else {
-      error = "Error: The time entered was not valid";
+      error = props.endTimeError;
     }
   }
 
-  // Calculate time increments (with disabled items) **TODO**
+  // Calculate time increments
   startTimeIncrement = generateTimeIncrement(props.minuteIncrement);
   endTimeIncrement = generateTimeIncrement(props.minuteIncrement);
 
@@ -113,5 +113,4 @@ export function generateTimeObjects(props) {
 
 export function manipulateTimeObjects() {
   // Return new moment() object when time changes
-  console.log("change time");
 }
