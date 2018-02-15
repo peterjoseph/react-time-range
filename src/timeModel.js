@@ -98,6 +98,9 @@ export function generateTimeObjects(props) {
 }
 
 export function manipulateTimeObject(momentObject, newTimeValue) {
-  // Return new moment() object when time changes
+  let time = momentObject;
+  time.set("hour", parseInt(newTimeValue.substring(0, 2)));
+  time.set("minutes", parseInt(newTimeValue.substring(2, 4)));
+  time.set("seconds", 0);
   return momentObject;
 }
