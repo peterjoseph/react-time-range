@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { generateTimeObjects, manipulateTimeObjects } from "./timeModel";
+import { generateTimeObjects, manipulateTimeObject } from "./timeModel";
 
 class TimeRange extends React.Component {
   constructor(props) {
@@ -28,18 +28,38 @@ class TimeRange extends React.Component {
   }
 
   changeTime(evt) {
-    manipulateTimeObjects();
+    // Fetch our current start and end time values
+    let sValue = this.props.startMoment;
+    let eValue = this.props.endMoment;
+    // Manipulate time based on value selected
+    if (evt.target.id === "select-start") {
+      sValue = manipulateTimeObject(sValue, evt.target.value);
+    } else if (evt.target.id === "select-end") {
+      eValue = manipulateTimeObject(eValue, evt.target.value);
+    }
+    // Return both time objects back
+    this.props.onChange({
+      startTime: sValue,
+      endTime: eValue
+    });
   }
 
   render() {
-    const { startLabel, endLabel, className, use24Hours } = this.props;
+    const {
+      startLabel,
+      endLabel,
+      showErrors,
+      className,
+      use24Hours
+    } = this.props;
     const { timeModel } = this.state;
 
     return (
       <div className={className}>
         {startLabel}
         <select
-          value={timeModel.startTimeValue && timeModel.startTimeValue.value}
+          id="select-start"
+          value={timeModel.startTimeValue && timeModel.startTimeValue}
           onChange={this.changeTime}
         >
           {timeModel.startTimeIncrement &&
@@ -53,7 +73,8 @@ class TimeRange extends React.Component {
         </select>
         {endLabel}
         <select
-          value={timeModel.endTimeValue && timeModel.endTimeValue.value}
+          id="select-end"
+          value={timeModel.endTimeValue && timeModel.endTimeValue}
           onChange={this.changeTime}
         >
           {timeModel.endTimeIncrement &&
@@ -66,7 +87,8 @@ class TimeRange extends React.Component {
             ))}
         </select>
         {this.props.children}
-        {timeModel.error && <div className="error">{timeModel.error}</div>}
+        {showErrors &&
+          timeModel.error && <div className="error">{timeModel.error}</div>}
       </div>
     );
   }
@@ -80,6 +102,7 @@ TimeRange.defaultProps = {
   minuteIncrement: 30,
   startLabel: "Start:",
   endLabel: "End:",
+  showErrors: true,
   equalTimeError:
     "Please enter a valid time. Start and End times cannot be equal.",
   endTimeError:
@@ -100,6 +123,7 @@ TimeRange.propTypes = {
   onClick: PropTypes.func,
   onChange: PropTypes.func, // This should also return the duration
   disabledTimeRanges: PropTypes.array,
+  showErrors: PropTypes.bool,
   equalTimeError: PropTypes.string,
   endTimeError: PropTypes.string,
   startTimeDisabledTimeRanges: PropTypes.array,

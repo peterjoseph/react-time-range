@@ -41,24 +41,10 @@ function calculateRoundedTimeValue(moment, minIncrementProp) {
   const roundedTime =
     Math.round((moment.hour() * 60 + moment.minutes()) / minIncrementProp) *
     minIncrementProp;
-  const rHour = Math.floor(roundedTime / 60);
-  const rMin = roundedTime % 60;
-  const time = {
-    value: ("0" + rHour).slice(-2) + ("0" + rMin).slice(-2),
-    HH: ("0" + rHour).slice(-2),
-    MM: ("0" + rMin).slice(-2),
-    hh:
-      rHour === 0
-        ? "12"
-        : (rHour === 12
-            ? "12"
-            : rHour > 12 ? "0" + (rHour - 12) : "0" + rHour
-          ).slice(-2),
-    mm: ("0" + rMin).slice(-2),
-    active: true,
-    period: rHour >= 12 ? "PM" : "AM"
-  };
-  return time;
+  return (
+    ("0" + Math.floor(roundedTime / 60)).slice(-2) +
+    ("0" + roundedTime % 60).slice(-2)
+  );
 }
 
 export function generateTimeObjects(props) {
@@ -111,6 +97,7 @@ export function generateTimeObjects(props) {
   };
 }
 
-export function manipulateTimeObjects() {
+export function manipulateTimeObject(momentObject, newTimeValue) {
   // Return new moment() object when time changes
+  return momentObject;
 }
