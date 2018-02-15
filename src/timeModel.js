@@ -61,15 +61,6 @@ function calculateRoundedTimeValue(moment, minIncrementProp) {
   return time;
 }
 
-function hideTimeValues() {
-  // Generate list of disabled values for a time range
-}
-
-export function manipulateTimeObjects() {
-  // Return new moment() object when time changes
-  console.log("change time");
-}
-
 export function generateTimeObjects(props) {
   let startTimeMoment,
     endTimeMoment,
@@ -118,4 +109,9 @@ export function generateTimeObjects(props) {
     endTimeValue,
     error
   };
+}
+
+export function manipulateTimeObjects() {
+  // Return new moment() object when time changes
+  console.log("change time");
 }
