@@ -6,10 +6,11 @@ function validMoments(startMoment, endMoment) {
 
 function validRange(startMoment, endMoment, sameIsValid) {
   if (sameIsValid) {
-    return startMoment.isSameOrBefore(endMoment);
-  } else {
-    return startMoment.isBefore(endMoment);
+    if (startMoment === endMoment) {
+      return "equal";
+    }
   }
+  return startMoment < endMoment ? "lesser" : "greater";
 }
 
 function generateTimeIncrement(minIncrementProp) {
@@ -58,8 +59,8 @@ export function generateTimeObjects(props) {
 
   // Check if two moment objects are valid
   if (validMoments(props.startMoment, props.endMoment) === true) {
-    startTimeMoment = props.startMoment;
-    endTimeMoment = props.endMoment;
+    startTimeMoment = props.startMoment.set("seconds", 0);
+    endTimeMoment = props.endMoment.set("seconds", 0);
   } else {
     startTimeMoment = moment().set("hour", 8);
     endTimeMoment = moment().set("hour", 10);
@@ -74,11 +75,19 @@ export function generateTimeObjects(props) {
   );
 
   // Confirm if start and end times are valid ranges
-  if (validRange(startTimeMoment, endTimeMoment, props.sameIsValid) === false) {
-    // Throw error message
-    if (props.sameIsValid === false) {
+  const validity = validRange(
+    startTimeMoment,
+    endTimeMoment,
+    props.sameIsValid
+  );
+  if (!props.sameIsValid) {
+    if (validity === "equal") {
       error = props.equalTimeError;
-    } else {
+    } else if (validity === "greater") {
+      error = props.endTimeError;
+    }
+  } else {
+    if (validity === "greater") {
       error = props.endTimeError;
     }
   }
