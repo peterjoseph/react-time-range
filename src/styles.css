@@ -1,0 +1,29 @@
+#react-time-range {
+  padding: 5px;
+}
+
+#react-time-range .component {
+  display: inline;
+  overflow: auto;
+  padding: 5px;
+}
+
+#react-time-range select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 6px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#react-time-range .component .label {
+  padding-right: 10px;
+}
+
+#react-time-range .error {
+  color: red;
+  padding: 5px;
+}

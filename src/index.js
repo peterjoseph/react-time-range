@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { generateTimeObjects, manipulateTimeObject } from "./timeModel";
+import style from "./styles.css";
 
 class TimeRange extends React.Component {
   constructor(props) {
@@ -55,37 +56,41 @@ class TimeRange extends React.Component {
     const { timeModel } = this.state;
 
     return (
-      <div className={className}>
-        {startLabel}
-        <select
-          id="select-start"
-          value={timeModel.startTimeValue && timeModel.startTimeValue}
-          onChange={this.changeTime}
-        >
-          {timeModel.startTimeIncrement &&
-            timeModel.startTimeIncrement.map((resp, index) => (
-              <option key={index} value={resp.value} disabled={!resp.active}>
-                {use24Hours
-                  ? `${resp.HH}:${resp.MM}`
-                  : `${resp.hh}:${resp.mm} ${resp.period}`}
-              </option>
-            ))}
-        </select>
-        {endLabel}
-        <select
-          id="select-end"
-          value={timeModel.endTimeValue && timeModel.endTimeValue}
-          onChange={this.changeTime}
-        >
-          {timeModel.endTimeIncrement &&
-            timeModel.endTimeIncrement.map((resp, index) => (
-              <option key={index} value={resp.value} disabled={!resp.active}>
-                {use24Hours
-                  ? `${resp.HH}:${resp.MM}`
-                  : `${resp.hh}:${resp.mm} ${resp.period}`}
-              </option>
-            ))}
-        </select>
+      <div id="react-time-range" className={className}>
+        <div id="start-component" className="component">
+          {startLabel && <span className="label">{startLabel}</span>}
+          <select
+            id="select-start"
+            value={timeModel.startTimeValue && timeModel.startTimeValue}
+            onChange={this.changeTime}
+          >
+            {timeModel.startTimeIncrement &&
+              timeModel.startTimeIncrement.map((resp, index) => (
+                <option key={index} value={resp.value} disabled={!resp.active}>
+                  {use24Hours
+                    ? `${resp.HH}:${resp.MM}`
+                    : `${resp.hh}:${resp.mm} ${resp.period}`}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div id="end-component" className="component">
+          {endLabel && <span className="label">{endLabel}</span>}
+          <select
+            id="select-end"
+            value={timeModel.endTimeValue && timeModel.endTimeValue}
+            onChange={this.changeTime}
+          >
+            {timeModel.endTimeIncrement &&
+              timeModel.endTimeIncrement.map((resp, index) => (
+                <option key={index} value={resp.value} disabled={!resp.active}>
+                  {use24Hours
+                    ? `${resp.HH}:${resp.MM}`
+                    : `${resp.hh}:${resp.mm} ${resp.period}`}
+                </option>
+              ))}
+          </select>
+        </div>
         {this.props.children}
         {showErrors &&
           timeModel.error && <div className="error">{timeModel.error}</div>}
@@ -103,6 +108,7 @@ TimeRange.defaultProps = {
   startLabel: "Start:",
   endLabel: "End:",
   showErrors: true,
+  repositionTimes: false,
   equalTimeError:
     "Please enter a valid time. Start and End times cannot be equal.",
   endTimeError:
@@ -128,6 +134,7 @@ TimeRange.propTypes = {
   endTimeError: PropTypes.string,
   startTimeDisabledTimeRanges: PropTypes.array,
   endTimeDisabledTimeRanges: PropTypes.array,
+  repositionTimes: PropTypes.bool,
   onStartTimeClick: PropTypes.func,
   onStartTimeChange: PropTypes.func,
   beforeStartTimeShow: PropTypes.func,
