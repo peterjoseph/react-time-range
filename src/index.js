@@ -8,7 +8,7 @@ class TimeRange extends React.Component {
     super(props);
 
     this.state = {
-      timeModel: {}
+      timeModel: null
     };
 
     this.changeTime = this.changeTime.bind(this);
@@ -121,8 +121,8 @@ TimeRange.propTypes = {
   calendarChildren: PropTypes.oneOf([0, 1, 2]),
   startLabel: PropTypes.string,
   endLabel: PropTypes.string,
-  startMoment: PropTypes.object.isRequired,
-  endMoment: PropTypes.object.isRequired,
+  startMoment: PropTypes.string.isRequired,
+  endMoment: PropTypes.string.isRequired,
   minuteIncrement: PropTypes.oneOf([1, 2, 5, 10, 15, 20, 30, 60]),
   sameIsValid: PropTypes.bool,
   className: PropTypes.string,

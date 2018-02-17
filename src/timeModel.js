@@ -6,11 +6,11 @@ function validMoments(startMoment, endMoment) {
 
 function validRange(startMoment, endMoment, sameIsValid) {
   if (sameIsValid) {
-    if (startMoment === endMoment) {
+    if (startMoment.isSame(endMoment)) {
       return "equal";
     }
   }
-  return startMoment < endMoment ? "lesser" : "greater";
+  return startMoment.isBefore(endMoment) ? "lesser" : "greater";
 }
 
 function generateTimeIncrement(minIncrementProp) {
@@ -57,10 +57,13 @@ export function generateTimeObjects(props) {
     endTimeValue,
     error;
 
+  let startMomentObject = moment(props.startMoment);
+  let endMomentObject = moment(props.endMoment);
+
   // Check if two moment objects are valid
-  if (validMoments(props.startMoment, props.endMoment) === true) {
-    startTimeMoment = props.startMoment.set("seconds", 0);
-    endTimeMoment = props.endMoment.set("seconds", 0);
+  if (validMoments(startMomentObject, endMomentObject)) {
+    startTimeMoment = startMomentObject.set("seconds", 0);
+    endTimeMoment = endMomentObject.set("seconds", 0);
   } else {
     startTimeMoment = moment().set("hour", 8);
     endTimeMoment = moment().set("hour", 10);
@@ -107,9 +110,9 @@ export function generateTimeObjects(props) {
 }
 
 export function manipulateTimeObject(momentObject, newTimeValue) {
-  let time = momentObject;
+  let time = moment(momentObject);
   time.set("hour", parseInt(newTimeValue.substring(0, 2)));
   time.set("minutes", parseInt(newTimeValue.substring(2, 4)));
   time.set("seconds", 0);
-  return momentObject;
+  return time.toString();
 }
