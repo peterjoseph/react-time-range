@@ -51,14 +51,17 @@ class TimeRange extends React.Component {
       endLabel,
       showErrors,
       className,
-      use24Hours
+      use24Hours,
+      children
     } = this.props;
     const { timeModel } = this.state;
+    const calendar = React.Children.toArray(children);
 
     return (
       <div id="react-time-range" className={className}>
         <div id="start-component" className="component">
           {startLabel && <span className="label">{startLabel}</span>}
+          {calendar[0] && <span className="component">{calendar[0]}</span>}
           <select
             id="select-start"
             value={timeModel.startTimeValue && timeModel.startTimeValue}
@@ -76,6 +79,7 @@ class TimeRange extends React.Component {
         </div>
         <div id="end-component" className="component">
           {endLabel && <span className="label">{endLabel}</span>}
+          {calendar[0] && <span className="component">{calendar[2]}</span>}
           <select
             id="select-end"
             value={timeModel.endTimeValue && timeModel.endTimeValue}
@@ -91,7 +95,6 @@ class TimeRange extends React.Component {
               ))}
           </select>
         </div>
-        {this.props.children}
         {showErrors &&
           timeModel.error && <div className="error">{timeModel.error}</div>}
       </div>
@@ -117,8 +120,6 @@ TimeRange.defaultProps = {
 
 TimeRange.propTypes = {
   use24Hours: PropTypes.bool,
-  useCalendarChildren: PropTypes.bool,
-  calendarChildren: PropTypes.oneOf([0, 1, 2]),
   startLabel: PropTypes.string,
   endLabel: PropTypes.string,
   startMoment: PropTypes.string.isRequired,
@@ -127,7 +128,7 @@ TimeRange.propTypes = {
   sameIsValid: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  onChange: PropTypes.func, // This should also return the duration
+  onChange: PropTypes.func,
   disabledTimeRanges: PropTypes.array,
   showErrors: PropTypes.bool,
   equalTimeError: PropTypes.string,
