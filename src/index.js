@@ -79,7 +79,7 @@ class TimeRange extends React.Component {
         </div>
         <div id="end-component" className="component">
           {endLabel && <span className="label">{endLabel}</span>}
-          {calendar[0] && <span className="component">{calendar[2]}</span>}
+          {calendar[1] && <span className="component">{calendar[1]}</span>}
           <select
             id="select-end"
             value={timeModel.endTimeValue && timeModel.endTimeValue}
