@@ -5,7 +5,7 @@ function validMoments(startMoment, endMoment) {
 }
 
 function validRange(startMoment, endMoment, sameIsValid) {
-  if (sameIsValid) {
+  if (!sameIsValid) {
     if (startMoment.isSame(endMoment)) {
       return "equal";
     }
