@@ -5,9 +5,11 @@ function validMoments(startMoment, endMoment) {
 }
 
 function validRange(startMoment, endMoment, sameIsValid) {
-  if (!sameIsValid) {
-    if (startMoment.isSame(endMoment)) {
+  if (startMoment.isSame(endMoment)) {
+    if (!sameIsValid) {
       return "equal";
+    } else {
+      return null;
     }
   }
   return startMoment.isBefore(endMoment) ? "lesser" : "greater";
@@ -88,11 +90,11 @@ export function generateTimeObjects(props) {
       error = props.equalTimeError;
     } else if (validity === "greater") {
       error = props.endTimeError;
+    } else {
+      error = null;
     }
-  } else {
-    if (validity === "greater") {
-      error = props.endTimeError;
-    }
+  } else if (validity === "greater") {
+    error = props.endTimeError;
   }
 
   // Calculate time increments
@@ -114,5 +116,5 @@ export function manipulateTimeObject(momentObject, newTimeValue) {
   time.set("hour", parseInt(newTimeValue.substring(0, 2)));
   time.set("minutes", parseInt(newTimeValue.substring(2, 4)));
   time.set("seconds", 0);
-  return time.toString();
+  return time.toISOString();
 }
