@@ -129,25 +129,14 @@ TimeRange.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   onChange: PropTypes.func,
-  disabledTimeRanges: PropTypes.array,
   showErrors: PropTypes.bool,
   equalTimeError: PropTypes.string,
   endTimeError: PropTypes.string,
-  startTimeDisabledTimeRanges: PropTypes.array,
-  endTimeDisabledTimeRanges: PropTypes.array,
   repositionTimes: PropTypes.bool,
   onStartTimeClick: PropTypes.func,
   onStartTimeChange: PropTypes.func,
-  beforeStartTimeShow: PropTypes.func,
-  afterStartTimeShow: PropTypes.func,
-  beforeStartTimeHide: PropTypes.func,
-  afterStartTimeHide: PropTypes.func,
   onEndTimeClick: PropTypes.func,
-  onEndTimeChange: PropTypes.func,
-  beforeEndTimeShow: PropTypes.func,
-  afterEndTimeShow: PropTypes.func,
-  beforeEndTimeHide: PropTypes.func,
-  afterEndTimeHide: PropTypes.func
+  onEndTimeChange: PropTypes.func
 };
 
 export default TimeRange;
