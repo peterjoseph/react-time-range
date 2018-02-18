@@ -1,8 +1,6 @@
 # React-Time-Range
 
-A simple react component for selecting start and end time ranges.
-
-When searching for a time range component, I could only find individual time pickers, and not components that handle selecting start and end times. This component is a basic implementation of a selector.
+A simple react component for selecting start and end time ranges, with validation.
 
 If you need to adjust days and months, and not specifically time, you can pass in your own calendar components as children so that they appear beside each of the time selector drop-downs.
 
