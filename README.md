@@ -9,11 +9,8 @@ If you need to adjust days and months, and not specifically time, you can pass i
 Installation
 -----
 
-This component is currently in active development and not available on npm. Once the first stable release is ready, I will add the package to npm and update this readme.
-
-Alternatively, you can download the files from GitHub and load them into your project using
 ```
-npm link react-time-range
+npm install react-time-range
 ```
 
 Dependencies
@@ -53,7 +50,6 @@ Component Props
 | `showErrors` | boolean | true | Display an error message when the input times are considered invalid. |
 | `equalTimeError` | string | "Please enter a valid time. Start and End times cannot be equal." | Error string that is rendered when both start and time values are the same, and this is considered invalid when `sameIsValid={true}`|
 | `endTimeError` | string | "Please enter a valid time. End time cannot be before start time." | Error string that is rendered when the selected end time occurs before the start time.|
-| `repositionTimes` | boolean | false | If true, when a selected start time occurs after the end time, the end time value will be adjusted to remain valid. |
 | `onStartTimeClick` | function | undefined | Return function that is called when the start time drop-down menu is clicked. |
 | `onStartTimeChange` | function | undefined | Return function that is called when the start time drop-down value is changed. |
 | `onEndTimeClick` | function | undefined | Return function that is called when the end time drop-down menu is clicked. |

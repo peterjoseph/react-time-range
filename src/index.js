@@ -12,6 +12,7 @@ class TimeRange extends React.Component {
     };
 
     this.changeTime = this.changeTime.bind(this);
+    this.componentClicked = this.componentClicked.bind(this);
   }
 
   componentWillMount() {
@@ -35,14 +36,32 @@ class TimeRange extends React.Component {
     // Manipulate time based on value selected
     if (evt.target.id === "select-start") {
       sValue = manipulateTimeObject(sValue, evt.target.value);
+      this.props.onStartTimeChange && this.props.onStartTimeChange({
+        startTime: sValue
+      });
     } else if (evt.target.id === "select-end") {
       eValue = manipulateTimeObject(eValue, evt.target.value);
+      this.props.onEndTimeChange && this.props.onEndTimeChange({
+        endTime: eValue
+      });
     }
     // Return both time objects back
-    this.props.onChange({
+    this.props.onChange && this.props.onChange({
       startTime: sValue,
       endTime: eValue
     });
+  }
+
+  componentClicked(evt) {
+    // On Click Function regardless of component
+    this.props.onClick && this.props.onClick();
+
+    // On Click specific to elements
+    if (evt.target.id === "select-start") {
+      this.props.onStartTimeClick && this.props.onStartTimeClick();
+    } else if (evt.target.id === "select-end") {
+      this.props.onEndTimeClick && this.props.onEndTimeClick();
+    }
   }
 
   render() {
@@ -66,6 +85,7 @@ class TimeRange extends React.Component {
             id="select-start"
             value={timeModel.startTimeValue && timeModel.startTimeValue}
             onChange={this.changeTime}
+            onClick={this.componentClicked}
           >
             {timeModel.startTimeIncrement &&
               timeModel.startTimeIncrement.map((resp, index) => (
@@ -84,6 +104,7 @@ class TimeRange extends React.Component {
             id="select-end"
             value={timeModel.endTimeValue && timeModel.endTimeValue}
             onChange={this.changeTime}
+            onClick={this.componentClicked}
           >
             {timeModel.endTimeIncrement &&
               timeModel.endTimeIncrement.map((resp, index) => (
@@ -132,7 +153,6 @@ TimeRange.propTypes = {
   showErrors: PropTypes.bool,
   equalTimeError: PropTypes.string,
   endTimeError: PropTypes.string,
-  repositionTimes: PropTypes.bool,
   onStartTimeClick: PropTypes.func,
   onStartTimeChange: PropTypes.func,
   onEndTimeClick: PropTypes.func,
