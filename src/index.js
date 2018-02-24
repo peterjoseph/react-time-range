@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { generateTimeObjects, manipulateTimeObject } from "./timeModel";
-import style from "./styles.css";
+import "./styles.css";
 
 class TimeRange extends React.Component {
   constructor(props) {
