@@ -79,6 +79,14 @@ export function generateTimeObjects(props) {
     props.minuteIncrement
   );
 
+  // Set our moment objects hours and minutes to the rounded time value
+  startMomentObject.set("hour", parseInt(startTimeValue.substring(0, 2)));
+  startMomentObject.set("minutes", parseInt(startTimeValue.substring(2, 4)));
+  startMomentObject.set("seconds", 0);
+  endMomentObject.set("hour", parseInt(endTimeValue.substring(0, 2)));
+  endMomentObject.set("minutes", parseInt(endTimeValue.substring(2, 4)));
+  endMomentObject.set("seconds", 0);
+
   // Confirm if start and end times are valid ranges
   const validity = validRange(
     startTimeMoment,
