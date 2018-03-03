@@ -1,6 +1,6 @@
 {
   "name": "react-time-range",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A flexible time range selector for React",
   "main": "build/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/withpeterjoseph/react-time-range.git"
+    "url": "git+https://github.com/peterjoseph/react-time-range.git"
   },
   "keywords": [
     "react",
@@ -33,9 +33,9 @@
   ],
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/withpeterjoseph/react-time-range/issues"
+    "url": "https://github.com/peterjoseph/react-time-range/issues"
   },
-  "homepage": "https://github.com/withpeterjoseph/react-time-range#readme",
+  "homepage": "https://github.com/peterjoseph/react-time-range#readme",
   "dependencies": {
     "css-loader": "^0.28.9",
     "file-loader": "^1.1.6",
