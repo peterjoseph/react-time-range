@@ -58,3 +58,7 @@ Component Props
 | `maxStartMoment` | string | '23:59' | The maximum end time limite. |
 | `minEndMoment` | string | '00:00' | The minimum start time limit. |
 | `maxEndMoment` | string | '23:59' | The maximum end time limite. |
+| `disableStart` | boolean | false | Disable or enable the start time dropdown. |
+| `disableEnd` | boolean | false | Disable or enable the send time dropdown. |
+| `hideStart` | boolean | false | Hide or show the start time dropdown. |
+| `hideEnd` | boolean | false | Hide or show the end time dropdown. |
