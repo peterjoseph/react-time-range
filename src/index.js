@@ -77,48 +77,48 @@ class TimeRange extends React.Component {
     const calendar = React.Children.toArray(children);
 
     return (
-      <div id="react-time-range" className={className}>
-        <div id="start-component" className="component">
-          {startLabel && <span className="label">{startLabel}</span>}
-          {calendar[0] && <span className="component">{calendar[0]}</span>}
-          <select
-            id="select-start"
-            value={timeModel.startTimeValue && timeModel.startTimeValue}
-            onChange={this.changeTime}
-            onClick={this.componentClicked}
-          >
-            {timeModel.startTimeIncrement &&
+        <div id="react-time-range" className={className}>
+          <div id="start-component" className="component">
+            {startLabel && <span className="label">{startLabel}</span>}
+            {calendar[0] && <span className="component">{calendar[0]}</span>}
+            <select
+                id="select-start"
+                value={timeModel.startTimeValue && timeModel.startTimeValue}
+                onChange={this.changeTime}
+                onClick={this.componentClicked}
+            >
+              {timeModel.startTimeIncrement &&
               timeModel.startTimeIncrement.map((resp, index) => (
-                <option key={index} value={resp.value} disabled={!resp.active}>
-                  {use24Hours
-                    ? `${resp.HH}:${resp.MM}`
-                    : `${resp.hh}:${resp.mm} ${resp.period}`}
-                </option>
+                  <option key={index} value={resp.value} disabled={!resp.active}>
+                    {use24Hours
+                        ? `${resp.HH}:${resp.MM}`
+                        : `${resp.hh}:${resp.mm} ${resp.period}`}
+                  </option>
               ))}
-          </select>
-        </div>
-        <div id="end-component" className="component">
-          {endLabel && <span className="label">{endLabel}</span>}
-          {calendar[1] && <span className="component">{calendar[1]}</span>}
-          <select
-            id="select-end"
-            value={timeModel.endTimeValue && timeModel.endTimeValue}
-            onChange={this.changeTime}
-            onClick={this.componentClicked}
-          >
-            {timeModel.endTimeIncrement &&
+            </select>
+          </div>
+          <div id="end-component" className="component">
+            {endLabel && <span className="label">{endLabel}</span>}
+            {calendar[1] && <span className="component">{calendar[1]}</span>}
+            <select
+                id="select-end"
+                value={timeModel.endTimeValue && timeModel.endTimeValue}
+                onChange={this.changeTime}
+                onClick={this.componentClicked}
+            >
+              {timeModel.endTimeIncrement &&
               timeModel.endTimeIncrement.map((resp, index) => (
-                <option key={index} value={resp.value} disabled={!resp.active}>
-                  {use24Hours
-                    ? `${resp.HH}:${resp.MM}`
-                    : `${resp.hh}:${resp.mm} ${resp.period}`}
-                </option>
+                  <option key={index} value={resp.value} disabled={!resp.active}>
+                    {use24Hours
+                        ? `${resp.HH}:${resp.MM}`
+                        : `${resp.hh}:${resp.mm} ${resp.period}`}
+                  </option>
               ))}
-          </select>
-        </div>
-        {showErrors &&
+            </select>
+          </div>
+          {showErrors &&
           timeModel.error && <div className="error">{timeModel.error}</div>}
-      </div>
+        </div>
     );
   }
 }
@@ -129,14 +129,18 @@ TimeRange.defaultProps = {
   sameIsValid: true,
   calendarChildren: 0,
   minuteIncrement: 30,
+  minStartMoment:'00:00',
+  maxStartMoment:'23:59',
+  minEndMoment:'00:00',
+  maxEndMoment:'23:59',
   startLabel: "Start:",
   endLabel: "End:",
   showErrors: true,
   repositionTimes: false,
   equalTimeError:
-    "Please enter a valid time. Start and End times cannot be equal.",
+      "Please enter a valid time. Start and End times cannot be equal.",
   endTimeError:
-    "Please enter a valid time. End time cannot be before start time."
+      "Please enter a valid time. End time cannot be before start time."
 };
 
 TimeRange.propTypes = {
@@ -156,7 +160,11 @@ TimeRange.propTypes = {
   onStartTimeClick: PropTypes.func,
   onStartTimeChange: PropTypes.func,
   onEndTimeClick: PropTypes.func,
-  onEndTimeChange: PropTypes.func
+  onEndTimeChange: PropTypes.func,
+  minStartMoment: PropTypes.string.isRequired,
+  maxStartMoment: PropTypes.string.isRequired,
+  minEndMoment: PropTypes.string.isRequired,
+  maxEndMoment: PropTypes.string.isRequired
 };
 
 export default TimeRange;
