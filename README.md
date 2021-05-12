@@ -54,3 +54,7 @@ Component Props
 | `onStartTimeChange` | function | undefined | Return function that is called when the start time drop-down value is changed. |
 | `onEndTimeClick` | function | undefined | Return function that is called when the end time drop-down menu is clicked. |
 | `onEndTimeChange` | function | undefined | Return function that is called when the end time drop-down value is changed. |
+| `minStartMoment` | string | '00:00' | The minimum start time limit. |
+| `maxStartMoment` | string | '23:59' | The maximum end time limite. |
+| `minEndMoment` | string | '00:00' | The minimum start time limit. |
+| `maxEndMoment` | string | '23:59' | The maximum end time limite. |
